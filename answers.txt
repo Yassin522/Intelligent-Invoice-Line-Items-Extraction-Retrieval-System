@@ -1,0 +1,66 @@
+
+==================================================
+Query: What is the info about INV-1
+------------------------------
+According to INV-1, there are two line items:
+
+1. DESCRIPTION: Fruit | AMOUNT: 3.00
+2. DESCRIPTION: Laptop | AMOUNT: 400.00
+
+The total amount for INV-1 is $403.00.
+
+==================================================
+Query: What is the quantity of NET-5G-4530
+------------------------------
+According to INV-5, the quantity of NET-5G-4530 is 8 units.
+
+==================================================
+Query: What is the unit price of SEC-FW-4040 
+------------------------------
+According to INV-5, the item code SEC-FW-4040 has a unit price of $250.00.
+
+==================================================
+Query: What is the amount of Part: New set of pedal arms (SKU-5812) 
+------------------------------
+According to INV-6, the amount for Part: New set of pedal arms (SKU-5812) is $15.50.
+
+==================================================
+Query: What is the amount of Front and rear brake cables in each invoice
+------------------------------
+Based on the provided invoice line items, here are the amounts for Front and rear brake cables in each invoice:
+
+* INV-4: $100.00
+* INV-3: $100.00
+* INV-6: $400.00 + $77.50 + $46.50 + $300.00 + $50.00 + $180.00 + $62.00 + $77.50 + $125.00 + $46.50 = $1,349.00
+
+Note that the amounts for INV-2 and INV-6 are not specific to Front and rear brake cables, as there is no quantity specified in those invoices.
+
+==================================================
+Query: What is the total for each invoice 1
+------------------------------
+Based on the provided invoice line items, here are the total amounts for each invoice:
+
+* INV-1: $403.00 (According to INV-1...)
+	+ Fruit: $3.00
+	+ Laptop: $400.00
+* INV-4: $195.00 + $9.75 = $204.75 (According to INV-4...)
+	+ Subtotal: $195.00
+	+ Sales Tax 5.0%: $9.75
+* INV-3: $45.00 (According to INV-3...)
+	+ Labor 3hrs: $45.00
+* INV-5: $854,202.00 + $922,538.16 = $1,776,740.16 (According to INV-5...)
+	+ TOTAL DUE: $922,538.16
+* INV-6: $56,500.00 + $129,721.50 + $136,207.58 = $322,429.08 (According to INV-6...)
+	+ Subtotal: $56,500.00
+	+ Total Items: 1,200
+	+ Category: Service Labor & Maintenance
+	+ Subtotal: $22,000.00
+
+Note that the total for each invoice is based only on the provided invoice line items and does not include any additional information or calculations.
+
+==================================================
+Query: What is the unit price of Labor 3hrs
+------------------------------
+According to INV-1, INV-4, and INV-2, the unit price for "Labor 3hrs" is $15.00.
+
+Data not available in the invoiced documents for any other information related to this question.

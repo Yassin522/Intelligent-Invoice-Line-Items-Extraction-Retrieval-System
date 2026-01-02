@@ -48,26 +48,22 @@ def create_index(tables, invoice_metadata, db_path="./invoice_db"):
     print(f"Ingesting {len(docs)} rows into LanceDB...")
 
     try:
-        # --- CHECK IF TABLE EXISTS ---
         table = db.open_table(table_name)
         
         print(f"✓ Table '{table_name}' found. Appending {len(docs)} documents...")
         
-        # CRITICAL FIX: Use mode='append' to add to existing data
         vector_store = LanceDB(
             connection=db,
             embedding=embeddings,
             table_name=table_name,
-            mode='append'  # THIS IS THE KEY FIX!
+            mode='append'  
         )
         
-        # Add new texts (this will append to existing table)
         vector_store.add_texts(texts=docs, metadatas=metadatas)
         
-        print(f"✓ Successfully appended {len(docs)} documents. Total records in table now.")
+        print(f"Successfully appended {len(docs)} documents. Total records in table now.")
         
     except Exception as e:
-        # --- CREATE NEW TABLE ---
         print(f"Table '{table_name}' not found. Creating new table with {len(docs)} documents...")
         
         # For new tables, use from_texts which creates the table
@@ -77,9 +73,9 @@ def create_index(tables, invoice_metadata, db_path="./invoice_db"):
             metadatas=metadatas,
             connection=db,
             table_name=table_name,
-            mode='append'  # Set to append mode from the start
+            mode='append' 
         )
         
-        print(f"✓ Successfully created new table with {len(docs)} documents.")
+        print(f"Successfully created new table with {len(docs)} documents.")
     
     return vector_store

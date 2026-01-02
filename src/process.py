@@ -74,7 +74,6 @@ def process_and_stitch(doc_dict):
         if df.empty:
             continue
 
-        # Look for a row containing "Description" or "Amount" in the first 5 rows
         header_idx = 0
         for idx in range(min(5, len(df))):
             row_values = [str(x).lower() for x in df.iloc[idx].values]
@@ -82,21 +81,16 @@ def process_and_stitch(doc_dict):
                 header_idx = idx
                 break
     
-        # Promote the found row to header
         new_header = df.iloc[header_idx]
         
-        # Filter the DataFrame to only include rows AFTER the header
         df = df.iloc[header_idx+1:].copy()
         df.columns = new_header
         
-        # Drop metadata column if exists
         if '_page' in df.columns:
             df = df.drop(columns=['_page'])
             
-        # Remove empty rows
         df = df.dropna(how='all')
         
-        # Only keep tables that actually have data left
         if not df.empty:
             final_cleaned.append(df)
 

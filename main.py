@@ -12,7 +12,6 @@ from src.rag import setup_rag_pipeline
 def main():
     parser = argparse.ArgumentParser(description="AI Invoice Extraction System")
     
-    # --- ARGUMENTS ---
     parser.add_argument("--ingest", type=str, help="Path to PDF invoice to ingest")
     parser.add_argument("--query", type=str, help="Question to ask about the invoices")
     parser.add_argument("--id", type=str, default="INV-001", help="Invoice ID for metadata")
@@ -25,7 +24,6 @@ def main():
     # Define DB Path
     db_path = "./invoice_db"
 
-    # --- INGESTION PHASE ---
     if args.ingest:
         print(f"Processing {args.ingest}...")
         
@@ -48,9 +46,8 @@ def main():
         }
         print(metadata)
         create_index(stitched_dfs, metadata, db_path=db_path)
-        print("✓ Ingestion Complete. Data Indexed in LanceDB.")
+        print("Ingestion Complete. Data Indexed in LanceDB.")
 
-    # --- QUERY PHASE ---
     if args.query:
         print(f"Querying: {args.query}")
         
@@ -59,15 +56,14 @@ def main():
         embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-base-en-v1.5")
         
         try:
-            # Open existing table with mode='append' to ensure we read all data
+       
             vector_store = LanceDB(
                 connection=db, 
                 embedding=embeddings, 
                 table_name="line_items",
-                mode='append'  # Use append mode to preserve existing data
+                mode='append'  
             )
             
-            # Show table info
             table = db.open_table("line_items")
             print(f"Database contains {table.count_rows()} total rows")
             
@@ -77,11 +73,10 @@ def main():
             
             answer_text = response['result']
             
-            # Show retrieved sources for debugging
             if 'source_documents' in response:
-                print(f"\n>> Retrieved {len(response['source_documents'])} relevant documents")
-                print(">> Top 3 sources:")
-                for i, doc in enumerate(response['source_documents'][:3]):
+                print(f"\nRetrieved {len(response['source_documents'])} relevant documents")
+                print("Top 10 sources:")
+                for i, doc in enumerate(response['source_documents'][:10]):
                     metadata = doc.metadata
                     print(f"   {i+1}. Invoice {metadata.get('invoice_id', 'N/A')} - {metadata.get('original_text', '')[:100]}...")
 
@@ -89,19 +84,20 @@ def main():
             print("\n>> ANSWER:")
             print(answer_text)
 
-            # Save to file if requested
+           
             if args.output:
                 try:
-                    with open(args.output, "w", encoding="utf-8") as f:
+                    with open(args.output, "a", encoding="utf-8") as f:
+                        f.write("\n" + "="*50 + "\n") 
                         f.write(f"Query: {args.query}\n")
                         f.write("-" * 30 + "\n")
-                        f.write(answer_text)
-                    print(f"\n✓ Result saved to: {args.output}")
+                        f.write(answer_text + "\n")
+                    print(f"\n✓ Result appended to: {args.output}")
                 except Exception as file_error:
                     print(f"\n✗ Could not save to file: {file_error}")
             
         except Exception as e:
-            print(f"✗ Error querying database. (Did you ingest an invoice first?)\nDetails: {e}")
+            print(f"Error querying database.\nDetails: {e}")
 
 if __name__ == "__main__":
     main()

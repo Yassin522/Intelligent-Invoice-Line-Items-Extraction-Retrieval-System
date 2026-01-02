@@ -13,19 +13,17 @@ def setup_rag_pipeline(vector_store):
         temperature=0.1
     )
 
-    # 2. Configure Retriever with BETTER parameters
-    # Use MMR (Maximum Marginal Relevance) for diverse results
-    # and reduce k to get only the most relevant results
+    
     retriever = vector_store.as_retriever(
-        search_type="mmr",  # Changed from "similarity" to "mmr" for better diversity
+        search_type="mmr",  
         search_kwargs={
-            "k": 15,  # Reduced from 100 to 15 - get top 15 most relevant
-            "fetch_k": 50,  # Fetch 50 candidates, then select diverse 15
-            "lambda_mult": 0.7  # Balance between relevance (1.0) and diversity (0.0)
+            "k": 15, 
+            "fetch_k": 50, 
+            "lambda_mult": 0.7  
         }
     )
 
-    # 3. Improved Grounded Prompt
+    # 3. Grounded Prompt
     prompt_template = """You are an expert financial assistant analyzing invoice data.
 
 CRITICAL INSTRUCTIONS:
@@ -47,13 +45,12 @@ Answer (be specific and cite invoice IDs):"""
         input_variables=["context", "question"]
     )
 
-    # 4. Create the QA chain
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
-        chain_type="stuff",  # "stuff" puts all docs into one prompt
+        chain_type="stuff",  
         retriever=retriever,
         chain_type_kwargs={"prompt": PROMPT},
-        return_source_documents=True  # Return sources for debugging
+        return_source_documents=True 
     )
 
     return qa_chain
