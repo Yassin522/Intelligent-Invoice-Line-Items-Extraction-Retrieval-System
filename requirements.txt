@@ -1,0 +1,7 @@
+docling
+lancedb
+langchain
+langchain-community
+langchain-huggingface
+langchain-ollama
+pandas

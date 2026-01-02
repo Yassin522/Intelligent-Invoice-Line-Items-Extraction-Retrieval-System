@@ -64,3 +64,46 @@ Query: What is the unit price of Labor 3hrs
 According to INV-1, INV-4, and INV-2, the unit price for "Labor 3hrs" is $15.00.
 
 Data not available in the invoiced documents for any other information related to this question.
+
+
+
+==================================================
+Query: What items are related to API Gateway Usage?
+------------------------------
+According to the provided invoice line items, the following items are related to API Gateway Usage:
+
+* Item Code: API-CALL-5999 (Invoice ID: INV-5)
+* Item Code: API-CALL-5474 (Invoice ID: INV-5)
+* Item Code: API-CALL-1654 (Invoice ID: INV-5)
+* Item Code: API-CALL-1986 (Invoice ID: INV-5)
+* Item Code: API-CALL-5404 (Invoice ID: INV-5)
+* Item Code: API-CALL-3996 (Invoice ID: INV-5)
+* Item Code: API-CALL-7187 (Invoice ID: INV-5)
+* Item Code: API-CALL-9562 (Invoice ID: INV-5)
+* Item Code: API-CALL-1752 (Invoice ID: INV-5)
+* Item Code: API-CALL-2649 (Invoice ID: INV-5)
+* Item Code: API-CALL-9958 (Invoice ID: INV-5)
+* Item Code: API-CALL-1997 (Invoice ID: INV-5)
+* Item Code: API-CALL-6289 (Invoice ID: INV-5)
+* Item Code: API-CALL-5597 (Invoice ID: INV-5)
+* Item Code: API-CALL-3245 (Invoice ID: INV-5)
+
+All of these items have the same description, "API Gateway Usage (10k units) - Batch [X]", indicating that they are related to API Gateway Usage.
+
+==================================================
+Query: Get all items from invoices dated March 2024?
+------------------------------
+Based on the provided invoice line items, there are no invoices dated March 2024. The invoice dates range from November 2, 2019, to an unknown date (since the delivery dates in Invoice INV-5 are not specified).
+
+According to the context, the only relevant information is:
+
+* Invoice: INV-1 with a description "Laptop" and amount $400.00
+* Invoice: INV-3 with a description "Labor 3hrs" and amount $45.00
+* Invoice: INV-4 with a description "" and amount $195.00
+* Invoice: INV-5 with multiple items, including API-CALL-1654 with a total amount of $255.00
+
+Since there are no invoices dated March 2024, the answer is:
+
+Data not available in the invoiced documents.
+
+Please note that I've only analyzed the provided invoice line items and did not make any assumptions or estimates.
