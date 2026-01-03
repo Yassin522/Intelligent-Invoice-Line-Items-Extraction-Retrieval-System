@@ -3,6 +3,7 @@
 ## End-to-End Data Flow
 The system follows a linear ETL (Extract, Transform, Load) pipeline followed by a RAG (Retrieval Augmented Generation) inference loop.
 
+```mermaid
 %%{init: {
   "theme": "dark",
   "flowchart": {
@@ -15,11 +16,11 @@ The system follows a linear ETL (Extract, Transform, Load) pipeline followed by 
   }
 }}%%
 graph TD
-    A[PDF Invoice] -->|Ingestion| B[Docling Extraction]
-    B -->|Raw Tables| C{Stitching Logic}
-    C -->|Merged DataFrames| D[Row Serialization]
-    D -->|Enriched Chunks| E[(LanceDB Vector Store)]
+    A[PDF<br/>Invoice] -->|Ingestion| B[Docling<br/>Extraction]
+    B -->|Raw<br/>Tables| C{Stitching<br/>Logic}
+    C -->|Merged<br/>DataFrames| D[Row<br/>Serialization]
+    D -->|Enriched<br/>Chunks| E[(LanceDB<br/>Vector Store)]
     
-    F[User Query] -->|Semantic Search| E
-    E -->|Top-k Context| G[Llama-3 LLM]
-    G -->|Grounded Answer| H[Final Output]
+    F[User<br/>Query] -->|Semantic<br/>Search| E
+    E -->|Top-k<br/>Context| G[Llama-3<br/>LLM]
+    G -->|Grounded<br/>Answer| H[Final<br/>Output]
