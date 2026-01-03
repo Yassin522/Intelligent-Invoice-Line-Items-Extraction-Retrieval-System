@@ -5,7 +5,7 @@ The system follows a linear ETL (Extract, Transform, Load) pipeline followed by 
 
 ```mermaid
 graph LR
-    A[PDF Invoice] -->|Ingestion| B(Docling Extraction)
+    A[  PDF Invoice   ] -->|Ingestion| B(Docling Extraction)
     B -->|Raw Tables| C{Stitching Logic}
     C -->|Merged DataFrames| D[Row Serialization]
     D -->|Enriched Chunks| E[(LanceDB Vector Store)]
