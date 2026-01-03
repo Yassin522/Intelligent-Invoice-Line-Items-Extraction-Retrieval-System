@@ -4,7 +4,7 @@
 The system follows a linear ETL (Extract, Transform, Load) pipeline followed by a RAG (Retrieval Augmented Generation) inference loop.
 
 ```mermaid
-%%{init: {'theme':'dark', 'themeVariables': {'fontSize':'8px'}, 'flowchart':{'nodeSpacing': 120, 'rankSpacing': 100, 'padding': 20}}}%%
+%%{init: {'theme':'dark', 'themeVariables': {'fontSize':'16px'}, 'flowchart':{'nodeSpacing': 120, 'rankSpacing': 100, 'padding': 10}}}%%
 graph TD
     A[PDF Invoice] -->|Ingestion| B[Docling Extraction]
     B -->|Raw Tables| C{Stitching Logic}
