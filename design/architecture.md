@@ -23,7 +23,7 @@ flowchart TB
         D -->|Enriched Chunks| E
     end
     
-    subgraph RAG["🔍 RAG Inference Loop"]
+    subgraph RAG["RAG Inference Loop"]
         direction TB
         F[User Query]
         G[Llama-3 LLM]
