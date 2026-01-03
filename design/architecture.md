@@ -1,52 +1,135 @@
+
 # System Architecture
 
 ## End-to-End Data Flow
+
 The system follows a linear ETL (Extract, Transform, Load) pipeline followed by a RAG (Retrieval Augmented Generation) inference loop.
 
-%%{init: {
-  'theme': 'base',
-  'themeVariables': {
-    'primaryColor': '#2dd4bf',
-    'primaryTextColor': '#fff',
-    'primaryBorderColor': '#111827',
-    'lineColor': '#94a3b8',
-    'secondaryColor': '#818cf8',
-    'tertiaryColor': '#f472b6',
-    'fontFamily': 'arial'
-  }
-}}%%
+### Architecture Flowchart
 
+```mermaid
+flowchart TB
+    A[PDF Invoice]
+    B[Docling Extraction]
+    C{Stitching Logic}
+    D[Row Serialization]
+    E[(LanceDB Vector Store)]
+    F[User Query]
+    G[Llama-3 LLM]
+    H[Final Output]
+    
+    A -->|Ingestion| B
+    B -->|Raw Tables| C
+    C -->|Merged DataFrames| D
+    D -->|Enriched Chunks| E
+    F -->|Semantic Search| E
+    E -->|Top-k Context| G
+    G -->|Grounded Answer| H
+    
+    style A fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
+    style B fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
+    style C fill:#c2410c,stroke:#f97316,stroke-width:4px,color:#fff
+    style D fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
+    style E fill:#15803d,stroke:#22c55e,stroke-width:4px,color:#fff
+    style F fill:#6b21a8,stroke:#a855f7,stroke-width:3px,color:#fff
+    style G fill:#15803d,stroke:#22c55e,stroke-width:4px,color:#fff
+    style H fill:#6b21a8,stroke:#a855f7,stroke-width:3px,color:#fff
+```
+
+### Alternative View: LR (Left-to-Right) Layout
+
+```mermaid
 flowchart LR
-    %% GLOBAL STYLES
-    classDef base fill:#1e293b,stroke:#334155,stroke-width:2px,color:#fff,rx:5,ry:5
-    classDef input fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#38bdf8,stroke-dasharray: 5 5
-    classDef logic fill:#1e293b,stroke:#fbbf24,stroke-width:2px,color:#fbbf24
-    classDef db fill:#1e293b,stroke:#4ade80,stroke-width:2px,color:#4ade80,shape:cylinder
-    classDef ai fill:#312e81,stroke:#818cf8,stroke-width:3px,color:#fff,rx:10,ry:10
-    classDef final fill:#831843,stroke:#f472b6,stroke-width:2px,color:#fff,rx:10,ry:10
+    A[PDF Invoice]
+    B[Docling Extraction]
+    C{Stitching Logic}
+    D[Row Serialization]
+    E[(LanceDB Vector Store)]
+    F[User Query]
+    G[Llama-3 LLM]
+    H[Final Output]
+    
+    A -->|Ingestion| B
+    B -->|Raw Tables| C
+    C -->|Merged DataFrames| D
+    D -->|Enriched Chunks| E
+    F -->|Semantic Search| E
+    E -->|Top-k Context| G
+    G -->|Grounded Answer| H
+    
+    style A fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
+    style B fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
+    style C fill:#c2410c,stroke:#f97316,stroke-width:4px,color:#fff
+    style D fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
+    style E fill:#15803d,stroke:#22c55e,stroke-width:4px,color:#fff
+    style F fill:#6b21a8,stroke:#a855f7,stroke-width:3px,color:#fff
+    style G fill:#15803d,stroke:#22c55e,stroke-width:4px,color:#fff
+    style H fill:#6b21a8,stroke:#a855f7,stroke-width:3px,color:#fff
+```
 
-    %% SHARED RESOURCE (Center)
-    subgraph Storage [" Knowledge Base "]
+### Detailed Pipeline with Subgraphs
+
+```mermaid
+flowchart TB
+    subgraph ETL["📊 ETL Pipeline"]
         direction TB
-        E[("LanceDB<br/>Vector Store")]:::db
+        A[PDF Invoice]
+        B[Docling Extraction]
+        C{Stitching Logic}
+        D[Row Serialization]
+        E[(LanceDB Vector Store)]
+        
+        A -->|Ingestion| B
+        B -->|Raw Tables| C
+        C -->|Merged DataFrames| D
+        D -->|Enriched Chunks| E
     end
-
-    %% TOP STREAM: INGESTION
-    subgraph ETL [" 🛠️ Ingestion Pipeline "]
-        direction LR
-        A("PDF Invoice"):::input -->|Ingest| B("Docling<br/>Extraction"):::base
-        B -->|Raw Tables| C{"Stitching<br/>Logic"}:::logic
-        C -->|Merged Data| D("Row<br/>Serialization"):::base
-        D -.->|Enriched Chunks| E
+    
+    subgraph RAG["🔍 RAG Inference Loop"]
+        direction TB
+        F[User Query]
+        G[Llama-3 LLM]
+        H[Final Output]
+        
+        F -->|Semantic Search| G
+        G -->|Grounded Answer| H
     end
+    
+    E -.->|Top-k Context| G
+    
+    style A fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
+    style B fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
+    style C fill:#c2410c,stroke:#f97316,stroke-width:4px,color:#fff
+    style D fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
+    style E fill:#15803d,stroke:#22c55e,stroke-width:4px,color:#fff
+    style F fill:#6b21a8,stroke:#a855f7,stroke-width:3px,color:#fff
+    style G fill:#15803d,stroke:#22c55e,stroke-width:4px,color:#fff
+    style H fill:#6b21a8,stroke:#a855f7,stroke-width:3px,color:#fff
+    style ETL fill:#0f172a,stroke:#475569,stroke-width:2px
+    style RAG fill:#0f172a,stroke:#475569,stroke-width:2px
+```
 
-    %% BOTTOM STREAM: INFERENCE
-    subgraph RAG [" 🧠 RAG Inference "]
-        direction LR
-        F(/"User Query"/):::input -->|Semantic Search| E
-        E -.->|Top-k Context| G["Llama-3<br/>LLM"]:::ai
-        G -->|Result| H(["Grounded<br/>Answer"]):::final
-    end
+---
 
-    %% Link Styles for curves
-    linkStyle default stroke:#64748b,stroke-width:2px,fill:none
+## 📋 Pipeline Components
+
+### 📊 ETL Pipeline (Extract, Transform, Load)
+
+| Stage | Component | Description | Output |
+|-------|-----------|-------------|---------|
+| 1️⃣ | **PDF Invoice** | Raw invoice documents | Multi-page PDFs |
+| 2️⃣ | **Docling Extraction** | Parse tables and text from PDFs | Structured tables |
+| 3️⃣ | **Stitching Logic** | Merge fragmented tables across pages | Complete DataFrames |
+| 4️⃣ | **Row Serialization** | Convert rows to enriched text chunks | Searchable text |
+| 5️⃣ | **LanceDB Vector Store** | Store embeddings for semantic retrieval | Indexed vectors |
+
+### 🔍 RAG Inference Loop (Retrieval Augmented Generation)
+
+| Stage | Component | Description | Output |
+|-------|-----------|-------------|---------|
+| 6️⃣ | **User Query** | Natural language question | Embedded query |
+| 7️⃣ | **Semantic Search** | Find relevant chunks via similarity | Top-k contexts |
+| 8️⃣ | **Llama-3 LLM** | Generate answer with context | Grounded response |
+| 9️⃣ | **Final Output** | Return accurate answer | User response |
+
+---
