@@ -9,69 +9,7 @@ The system follows a linear ETL (Extract, Transform, Load) pipeline followed by 
 
 ```mermaid
 flowchart TB
-    A[PDF Invoice]
-    B[Docling Extraction]
-    C{Stitching Logic}
-    D[Row Serialization]
-    E[(LanceDB Vector Store)]
-    F[User Query]
-    G[Llama-3 LLM]
-    H[Final Output]
-    
-    A -->|Ingestion| B
-    B -->|Raw Tables| C
-    C -->|Merged DataFrames| D
-    D -->|Enriched Chunks| E
-    F -->|Semantic Search| E
-    E -->|Top-k Context| G
-    G -->|Grounded Answer| H
-    
-    style A fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
-    style B fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
-    style C fill:#c2410c,stroke:#f97316,stroke-width:4px,color:#fff
-    style D fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
-    style E fill:#15803d,stroke:#22c55e,stroke-width:4px,color:#fff
-    style F fill:#6b21a8,stroke:#a855f7,stroke-width:3px,color:#fff
-    style G fill:#15803d,stroke:#22c55e,stroke-width:4px,color:#fff
-    style H fill:#6b21a8,stroke:#a855f7,stroke-width:3px,color:#fff
-```
-
-### Alternative View: LR (Left-to-Right) Layout
-
-```mermaid
-flowchart LR
-    A[PDF Invoice]
-    B[Docling Extraction]
-    C{Stitching Logic}
-    D[Row Serialization]
-    E[(LanceDB Vector Store)]
-    F[User Query]
-    G[Llama-3 LLM]
-    H[Final Output]
-    
-    A -->|Ingestion| B
-    B -->|Raw Tables| C
-    C -->|Merged DataFrames| D
-    D -->|Enriched Chunks| E
-    F -->|Semantic Search| E
-    E -->|Top-k Context| G
-    G -->|Grounded Answer| H
-    
-    style A fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
-    style B fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
-    style C fill:#c2410c,stroke:#f97316,stroke-width:4px,color:#fff
-    style D fill:#1e40af,stroke:#3b82f6,stroke-width:3px,color:#fff
-    style E fill:#15803d,stroke:#22c55e,stroke-width:4px,color:#fff
-    style F fill:#6b21a8,stroke:#a855f7,stroke-width:3px,color:#fff
-    style G fill:#15803d,stroke:#22c55e,stroke-width:4px,color:#fff
-    style H fill:#6b21a8,stroke:#a855f7,stroke-width:3px,color:#fff
-```
-
-### Detailed Pipeline with Subgraphs
-
-```mermaid
-flowchart TB
-    subgraph ETL["📊 ETL Pipeline"]
+    subgraph ETL["ETL Pipeline"]
         direction TB
         A[PDF Invoice]
         B[Docling Extraction]
@@ -111,9 +49,9 @@ flowchart TB
 
 ---
 
-## 📋 Pipeline Components
+## Pipeline Components
 
-### 📊 ETL Pipeline (Extract, Transform, Load)
+### ETL Pipeline (Extract, Transform, Load)
 
 | Stage | Component | Description | Output |
 |-------|-----------|-------------|---------|
