@@ -7,7 +7,7 @@ The system follows a linear ETL (Extract, Transform, Load) pipeline followed by 
 %%{init: {
   "theme": "dark",
   "flowchart": {
-    "nodeSpacing": 80,
+    "nodeSpacing": 140,
     "rankSpacing": 100,
     "htmlLabels": true
   },
