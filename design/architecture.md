@@ -61,7 +61,7 @@ flowchart TB
 | 4️⃣ | **Row Serialization** | Convert rows to enriched text chunks | Searchable text |
 | 5️⃣ | **LanceDB Vector Store** | Store embeddings for semantic retrieval | Indexed vectors |
 
-### 🔍 RAG Inference Loop (Retrieval Augmented Generation)
+### RAG Inference Loop (Retrieval Augmented Generation)
 
 | Stage | Component | Description | Output |
 |-------|-----------|-------------|---------|
