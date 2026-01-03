@@ -4,8 +4,8 @@
 The system follows a linear ETL (Extract, Transform, Load) pipeline followed by a RAG (Retrieval Augmented Generation) inference loop.
 
 ```mermaid
-graph LR
-    A[  PDF Invoice   ] -->|Ingestion| B(Docling Extraction)
+graph TD
+    A[PDF Invoice] -->|Ingestion| B(Docling Extraction)
     B -->|Raw Tables| C{Stitching Logic}
     C -->|Merged DataFrames| D[Row Serialization]
     D -->|Enriched Chunks| E[(LanceDB Vector Store)]
